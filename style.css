@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -5,9 +7,12 @@
 }
 
 body {
-  background: #0f0f17;
+  background: #000;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(0, 255, 255, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(255, 0, 255, 0.06) 0%, transparent 60%);
   color: #e0e0e0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Orbitron', system-ui, -apple-system, sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,10 +32,14 @@ body {
 
 #board {
   display: block;
-  border: 1px solid #2a2a3a;
-  background: #1a1a25;
+  border: 1px solid #00ffff55;
+  background: #050510;
   border-radius: 4px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+  box-shadow:
+    0 0 10px #00ffff44,
+    0 0 30px #00ffff22,
+    0 0 60px #00ffff11,
+    inset 0 0 30px rgba(0, 0, 0, 0.8);
 }
 
 /* ---- Panel lateral ---- */
@@ -49,25 +58,35 @@ body {
 }
 
 .label {
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: #555570;
-  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #00ffff;
+  font-weight: 700;
+  text-shadow:
+    0 0 6px #00ffff,
+    0 0 12px #00ffff88;
 }
 
 .value {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Orbitron', 'Courier New', Courier, monospace;
   font-size: 26px;
-  font-weight: 700;
-  color: #7aa2f7;
+  font-weight: 900;
+  color: #ff00ff;
   letter-spacing: 1px;
+  text-shadow:
+    0 0 8px #ff00ff,
+    0 0 20px #ff00ff88,
+    0 0 40px #ff00ff44;
 }
 
 #next-canvas {
   display: block;
-  border: 1px solid #2a2a3a;
-  background: #1a1a25;
+  border: 1px solid #ff00ff55;
+  background: #050510;
   border-radius: 4px;
+  box-shadow:
+    0 0 8px #ff00ff33,
+    0 0 20px #ff00ff11;
 }
 
 /* ---- Controles ---- */
@@ -79,21 +98,23 @@ body {
 }
 
 .controls li {
-  font-size: 12px;
-  color: #888;
+  font-size: 11px;
+  color: #aaa;
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
 kbd {
-  background: #22223a;
-  border: 1px solid #3a3a5a;
+  background: #0a0a1a;
+  border: 1px solid #00ffff66;
   border-radius: 3px;
   padding: 1px 6px;
-  font-size: 11px;
+  font-size: 10px;
   font-family: inherit;
-  color: #aaa;
+  color: #00ffff;
+  text-shadow: 0 0 4px #00ffff88;
+  box-shadow: 0 0 4px #00ffff22;
 }
 
 /* ---- Overlay ---- */
@@ -103,8 +124,8 @@ kbd {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(10, 10, 20, 0.75);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 10, 0.85);
+  backdrop-filter: blur(6px);
   border-radius: 4px;
 }
 
@@ -116,37 +137,62 @@ kbd {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
 }
 
 #overlay-title {
   font-size: 28px;
-  font-weight: 800;
-  letter-spacing: 4px;
-  color: #e57373;
+  font-weight: 900;
+  letter-spacing: 6px;
+  color: #ff0066;
+  text-shadow:
+    0 0 10px #ff0066,
+    0 0 25px #ff006688,
+    0 0 50px #ff006644;
+  animation: neon-flicker 3s infinite;
 }
 
 #overlay-score {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Orbitron', 'Courier New', Courier, monospace;
   font-size: 14px;
-  color: #7aa2f7;
+  color: #00ffff;
+  text-shadow: 0 0 8px #00ffff;
+  letter-spacing: 1px;
 }
 
 #restart-btn {
   margin-top: 8px;
-  background: #7aa2f7;
-  color: #0f0f17;
-  border: none;
-  border-radius: 6px;
+  background: transparent;
+  color: #00ff00;
+  border: 2px solid #00ff00;
+  border-radius: 4px;
   padding: 10px 28px;
-  font-size: 14px;
+  font-size: 13px;
+  font-family: 'Orbitron', inherit;
   font-weight: 700;
   cursor: pointer;
-  letter-spacing: 1px;
-  transition: background 0.15s;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px #00ff00;
+  box-shadow:
+    0 0 10px #00ff0066,
+    inset 0 0 10px #00ff0011;
+  transition: all 0.15s;
 }
 
 #restart-btn:hover {
-  background: #9bbdff;
+  background: #00ff0018;
+  box-shadow:
+    0 0 20px #00ff00,
+    0 0 40px #00ff0066,
+    inset 0 0 20px #00ff0022;
+  text-shadow: 0 0 12px #00ff00, 0 0 24px #00ff00;
+}
+
+@keyframes neon-flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.6; }
+  97% { opacity: 1; }
+  98% { opacity: 0.4; }
+  99% { opacity: 1; }
 }
