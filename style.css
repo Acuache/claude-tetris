@@ -196,3 +196,142 @@ kbd {
   98% { opacity: 0.4; }
   99% { opacity: 1; }
 }
+
+/* ---- Theme toggle ---- */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.toggle-label-text {
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: #00ffff;
+  text-shadow: 0 0 6px #00ffff, 0 0 12px #00ffff88;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.toggle-label {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+#theme-checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-track {
+  display: block;
+  width: 54px;
+  height: 28px;
+  background: #050510;
+  border: 1px solid #00ffff99;
+  border-radius: 14px;
+  position: relative;
+  transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+  box-shadow:
+    0 0 8px #00ffff88,
+    0 0 18px #00ffff44,
+    inset 0 0 10px rgba(0, 255, 255, 0.06);
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 4px;
+  left: 31px;
+  width: 18px;
+  height: 18px;
+  background: #00ffff;
+  border-radius: 50%;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, box-shadow 0.3s;
+  box-shadow:
+    0 0 8px #00ffff,
+    0 0 16px #00ffff,
+    0 0 28px #00ffff99;
+}
+
+/* light mode state — checkbox unchecked */
+#theme-checkbox:not(:checked) + .toggle-track {
+  border-color: #ff00ff99;
+  box-shadow:
+    0 0 8px #ff00ff88,
+    0 0 18px #ff00ff44,
+    inset 0 0 10px rgba(255, 0, 255, 0.06);
+}
+
+#theme-checkbox:not(:checked) + .toggle-track .toggle-thumb {
+  left: 4px;
+  background: #ff00ff;
+  box-shadow:
+    0 0 8px #ff00ff,
+    0 0 16px #ff00ff,
+    0 0 28px #ff00ff99;
+}
+
+/* ---- Light mode overrides ---- */
+body.light-mode {
+  background: #f0eeff;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(120, 0, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(255, 0, 200, 0.08) 0%, transparent 60%);
+  color: #1a0a2e;
+}
+
+body.light-mode #board {
+  border-color: #6600ff55;
+  background: #f5eeff;
+  box-shadow:
+    0 0 10px #6600ff44,
+    0 0 30px #6600ff22,
+    0 0 60px #6600ff11,
+    inset 0 0 30px rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode .label {
+  color: #0077cc;
+  text-shadow: 0 0 6px #0077cc, 0 0 12px #0077cc88;
+}
+
+body.light-mode .value {
+  color: #cc00aa;
+  text-shadow: 0 0 8px #cc00aa, 0 0 20px #cc00aa88, 0 0 40px #cc00aa44;
+}
+
+body.light-mode #next-canvas {
+  border-color: #cc00aa55;
+  background: #f5eeff;
+  box-shadow: 0 0 8px #cc00aa33, 0 0 20px #cc00aa11;
+}
+
+body.light-mode .controls li {
+  color: #44335a;
+}
+
+body.light-mode kbd {
+  background: #e8e0f8;
+  border-color: #6600ff66;
+  color: #0055aa;
+  text-shadow: 0 0 4px #0055aa88;
+  box-shadow: 0 0 4px #6600ff22;
+}
+
+body.light-mode .overlay {
+  background: rgba(235, 220, 255, 0.9);
+}
+
+body.light-mode .toggle-label-text {
+  color: #cc00aa;
+  text-shadow: 0 0 6px #cc00aa, 0 0 12px #cc00aa88;
+}
+
+body.light-mode .toggle-track {
+  background: #f0e8ff;
+}

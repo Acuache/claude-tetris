@@ -310,4 +310,9 @@ document.addEventListener('keydown', e => {
 
 restartBtn.addEventListener('click', init);
 
+const themeCheckbox = document.getElementById('theme-checkbox');
+themeCheckbox.addEventListener('change', () => {
+  document.body.classList.toggle('light-mode', !themeCheckbox.checked);
+});
+
 init();
