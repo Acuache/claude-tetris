@@ -11,7 +11,7 @@ const COLORS = [
   '#ff00ff', // T - neon magenta
   '#00ff00', // S - neon green
   '#ff0066', // Z - neon pink-red
-  '#0099ff', // J - neon blue
+  '#add8e6', // J - pale blue
   '#ff6600', // L - neon orange
 ];
 
