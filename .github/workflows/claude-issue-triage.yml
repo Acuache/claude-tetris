@@ -1,0 +1,67 @@
+name: Claude Issue Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+# Evita ejecuciones solapadas si el issue se edita varias veces seguidas
+concurrency:
+  group: issue-triage-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write # necesario para crear labels, etiquetar y comentar
+      id-token: write # requerido por la action
+    steps:
+      # 1. Asegurar que el set predefinido de labels existe en el repo.
+      - name: Ensure labels exist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          ensure() { gh label create "$1" --color "$2" --description "$3" --force; }
+          ensure "bug"            "d73a4a" "Algo no funciona correctamente"
+          ensure "enhancement"    "a2eeef" "Nueva funcionalidad o mejora"
+          ensure "question"       "d876e3" "Duda o solicitud de información"
+          ensure "documentation"  "0075ca" "Mejoras o cambios en documentación"
+          ensure "ui/ux"          "c5def5" "Aspecto visual o experiencia de usuario"
+          ensure "gameplay"       "fbca04" "Mecánicas o lógica del juego"
+          ensure "performance"    "5319e7" "Rendimiento u optimización"
+          ensure "priority:high"  "b60205" "Atención prioritaria"
+          ensure "priority:low"   "0e8a16" "Baja prioridad"
+
+      # 2. Claude analiza el issue, aplica labels y comenta el diagnóstico.
+      - name: Run Claude triage
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Eres un asistente de triage para el repositorio de un juego de Tetris
+            (HTML/CSS/JavaScript: index.html, style.css, gane.js).
+
+            Analiza el issue #${{ github.event.issue.number }}:
+            Título: ${{ github.event.issue.title }}
+
+            Tu tarea:
+            1. Aplica los labels MÁS apropiados al issue usando ÚNICAMENTE estos
+               labels existentes: bug, enhancement, question, documentation,
+               ui/ux, gameplay, performance, priority:high, priority:low.
+               No crees labels nuevos. Aplícalos con:
+                 gh issue edit ${{ github.event.issue.number }} --add-label "<label>"
+            2. Publica UN comentario en español en el issue con un diagnóstico
+               general, usando:
+                 gh issue comment ${{ github.event.issue.number }} --body "<texto>"
+               El comentario debe incluir:
+                 - Resumen del problema/solicitud.
+                 - Causa probable o área del código afectada (archivos/funciones
+                   de index.html, style.css, gane.js que conviene revisar).
+                 - Pasos sugeridos para implementar la solución.
+                 - Información faltante, si la hubiera.
+
+            Sé conciso y técnico. Revisa el código del repo si es necesario.
+          claude_args: |
+            --allowedTools "Bash(gh issue edit:*),Bash(gh issue comment:*),Bash(gh issue view:*),Read,Grep,Glob"
